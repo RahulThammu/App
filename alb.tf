@@ -22,28 +22,6 @@ resource "aws_alb_target_group" "alb_target_group" {
   }
 }
 
-/*
-locals {
-  
- association = flatten([
-    for instance in aws_instance.deploydemo : [
-    for portnum in var.ec2_ports : {
-        instance = instance
-        portnum = portnum
-    }
-  ]])
-}
-
-
-resource "aws_lb_target_group_attachment" "lb_target_group_attachment" {
-
-    count  = length(local.association)
-    target_group_arn   = aws_alb_target_group.alb_target_group.arn
-    target_id          = local.association[count.index].instance.id
-    port               = local.association[count.index].portnum
-    
-}
-*/
 
 resource "aws_alb_listener" "alb_listener" {  
 
