@@ -12,8 +12,6 @@ resource "aws_instance" "bastion_host" {
   
   instance_type = var.instance_type
 
-  count = length(aws_subnet.public-subnet)
-
   subnet_id     = aws_subnet.public-subnet[0].id
 
   key_name = "tf-deploy"
@@ -23,7 +21,7 @@ resource "aws_instance" "bastion_host" {
 
 
   tags = {
-    Name = "{var.env}-bastion-host"
+    Name = "${var.env}-bastion-host"
   }
 }
 
