@@ -12,8 +12,8 @@ Hence input those values as prompted while executing terraform plan and apply co
 
 Deployment Instructions:
 
-git clone https://github.com/RahulThammu/App.git
-Make sure your in folder App
-Run command: terraform init
-Run command: terraform plan -var-file="terraform.tfvars"
-Run command: terraform apply -var-file="terraform.tfvars" --auto-approve
+git clone https://github.com/RahulThammu/App.git <br />
+Make sure your in folder App <br />
+Run command: terraform init <br />
+Run command: terraform plan -var-file="terraform.tfvars" <br />
+Run command: terraform apply -var-file="terraform.tfvars" --auto-approve <br />
