@@ -12,6 +12,7 @@ resource "aws_instance" "bastion_host" {
   
   instance_type = var.instance_type
 
+  # change 0 to 1 to deploy bastion host in subnet2
   subnet_id     = aws_subnet.public-subnet[0].id
 
   key_name = "tf-deploy"
