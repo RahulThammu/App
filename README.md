@@ -88,6 +88,103 @@ Steps and Explanation:
 
     <img src="./Screenshots/step5.4.png" alt="Route Table associated with Private Subnets" />
 
+6. Identify the resources required in the public subnet
+    - Bastion host - EC2 instance
+    - Application Load Balancer
+    - Security group for Bastion Host
+    - Security group for Application Load Balancer (ALB)
+
+7. Create the above identified resources 
+	
+	- SG Bastion Host - Allows SSH from anywhere
+
+    Filename: bastion_host.tf
+
+    <img src="./Screenshots/step7.1.png" alt="Bastion Host created" />
+
+    - SG ALB - Allows HTTP traffic from anywhere
+
+    Filename: alb_sg.tf
+
+    <img src="./Screenshots/step7.2.png" alt="ALB SG created" />
+
+    - Bastion Host - It is created in one of the public subnets
+
+    Filename: bastion_host.tf
+
+    - ALB - An ALB is created along with a Target Group and a listener to listen to traffic on port 80
+
+    Filename: alb.tf
+
+    <img src="./Screenshots/step7.3.png" alt="ALB and Target Group created" />
+
+8. Identify the resources required in private subnets
+    - Auto Scaling Group (ASG)
+    - EC2 Instances (Launched with launch-template from ASG)
+    - Key-pair for ssh login (A key pair is created and the key name is passed to ec2 instance from launch template - Filename: keypair.tf)
+    - EC2 Instances - Security Group
+    - Web app deployment 
+
+9. Create the above identified resources
+
+	- EC2 - Security group - The EC2 instances allow SSH traffic from bastion host and HTTP traffic from ALB (This also helps the health checks)
+
+    Filename: ec2_sg.tf
+
+    <img src="./Screenshots/step9.1.png" alt="EC2 SG created" />
+
+    - ASG - An auto-scaling group spanning the two Availability zones is created. The desired, max and min capacity is specified. 
+
+    A launch template with EC2 requirements is also created. It contains the AMI to use for EC2 creation, instance type, key-pair, ec2 user data script, security group etc. This creates the EC2 instances in the private subnets with desired capacity
+
+    Filename: asg.tf
+
+     <img src="./Screenshots/step9.2.png" alt="ASG created" />
+
+    - Web app deployment - This is done using docker-compose file included in EC2 user-data. The user-data filename is container-setup.sh. This file is passed to EC2 user-data as part of the launch template mentioned above.
+
+     <img src="./Screenshots/step9.3.png" alt="Web app deployment script reference" />
+
+    The user-data runs during the startup of the EC2 instance. This script installs docker-compose, pulls the nginxdemo image and maps localhost port (which is ec2 instance)  3306 with docker container port 80.
+
+     <img src="./Screenshots/step9.4.png" alt="User data script attached to EC2" />
+
+10. Access web app from the ALB url printed from outputs.tf file at the end of deployment
+
+    <img src="./Screenshots/step10.1.png" alt="Web app url" />
+
+
+
+- For securing access to web application, it is placed in private subnets and an application load balance is placed in the front without exposing it to the internet.
+
+-Also, ssh it these web server EC2 instances is allowed through bastion host only
+
+- A dns record and ssl certificate could be created and attached to the load balancer, instead of using ALB's dns name (attempted, but certificate stays in pending validation for a long time)
+
+
+- Recommendations:
+
+For providing more security against common web applications attacks like cross site scripting, DIstributed Denial of Service etc a Web application firewall (WAF) can be configured. It can handle malicious traffic even before it reaches the web app/ALB.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
