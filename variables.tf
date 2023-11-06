@@ -56,3 +56,13 @@ variable "domain" {
     description = "domain name for this environment"
     type        =  string
 }
+
+variable "access_key" {
+    description = "aws access key"
+    type        =  string
+}
+
+variable "secret_key" {
+    description = "aws secret key"
+    type        =  string
+}
