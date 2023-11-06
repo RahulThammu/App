@@ -29,7 +29,7 @@ resource "aws_alb_listener" "alb_listener" {
    port              = "80"
     protocol          = "HTTP"
     #ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-    #certificate_arn  = aws_acm_certificate_validation.hello_cert_validate.certificate_arn
+    #certificate_arn  = aws_acm_certificate_validation.cert_validate.certificate_arn
  
   
   default_action {    
@@ -37,5 +37,5 @@ resource "aws_alb_listener" "alb_listener" {
     type             = "forward"  
   }
 
-  #depends_on = [aws_acm_certificate.hello_certificate]
+  #depends_on = [aws_acm_certificate.cert]
 }
