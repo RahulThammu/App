@@ -1,5 +1,7 @@
 # App
 
+<img src="./Architecture/architecture.png" alt="VPC created" />
+
 Installation instructions:
 
 Prerequisites: 
