@@ -37,5 +37,5 @@ resource "aws_alb_listener" "alb_listener" {
     type             = "forward"  
   }
 
-  depends_on = [aws_acm_certificate.hello_certificate]
+  #depends_on = [aws_acm_certificate.hello_certificate]
 }
